@@ -1,0 +1,17 @@
+{
+  "name": "gnomenclature-nodejs",
+  "version": "0.2.1",
+  "private": true,
+  "scripts": {
+    "start": "node gnne"
+  },
+  "dependencies": {
+    "express": "3.0.0rc4",
+    "jade": "*",
+    "underscore": "*"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}

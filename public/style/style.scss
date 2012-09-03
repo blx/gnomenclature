@@ -1,0 +1,69 @@
+/*
+ * Gnomenclature Project
+ *
+ * gn.scss
+ *
+ * Copyright 2012 Benjamin Cook <bc@benlxc.ca>
+ */
+
+$pagewidth: 500px;
+
+body {
+    font-family: Helvetica, sans-serif;
+    width: $pagewidth;
+    margin: 0 auto;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold;
+    color: #999;
+}
+
+h2 {
+    height: 36px;
+}
+
+input[type="text"] {
+    padding: 18px;
+    font-size: 1.35em;
+    color: #444;
+    width: $pagewidth - 2 * 18px - 2;
+    border: 3px solid #ddd;
+}
+
+input[type="submit"] {
+    display: inline-block;
+    padding: 50px;
+}
+
+footer {
+    p {
+        display: inline-block;
+        color: #888;
+    }
+    
+    #gn-sesh-pts {
+        float: right;
+    }
+}
+
+#gn-feedback {
+    text-align: center;
+}
+
+td {
+    padding: 0.4em 3em 0.4em 0;
+}
+
+.correct {
+    color: #0a0;
+}
+
+.incorrect {
+    color: #f00;
+}
