@@ -89,7 +89,7 @@
         var queue = [];
         
         self.init = function() {
-            asyncRequestQuestions(false, 7);  // synchronous request for init
+            asyncRequestQuestions(false, 8);  // synchronous request for init
         };
         
         self.newQuestion = function() {
@@ -104,7 +104,7 @@
         };
         
         var asyncRequestQuestions = function(async, num) {
-            $.getJSON('q?n=' + ((typeof num === 'number') ? num : 5), function(jsn) {
+            $.getJSON('q?n=' + ((typeof num === 'number') ? num : 7), function(jsn) {
                 queue.push.apply(queue, jsn);
                 if (!self.question) self.newQuestion();
             });
