@@ -31,7 +31,7 @@ exports.q = function(req, res) {
                 return cat[1] + ' ' + an;
             });
 
-        var current_mode = (qmode === 'mixed' ? ['ftn', 'ntf'][Math.round(Math.random())] : qmode);
+        var current_mode = (qmode === 'mixed' ? ['ftn', 'ntf'][__.random(1)] : qmode);
         
         if (current_mode === 'ftn') {
             obj.push({
@@ -41,7 +41,7 @@ exports.q = function(req, res) {
         }
         else if (current_mode === 'ntf') {
             obj.push({
-                'question': q_name[_.random(q_name.length)],
+                'question': q_name[__.random(q_name.length)],
                 'answer': [q_formula]
             });
         }
