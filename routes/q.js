@@ -41,7 +41,7 @@ exports.q = function(req, res) {
         }
         else if (current_mode === 'ntf') {
             obj.push({
-                'question': q_name[__.random(q_name.length)],
+                'question': q_name[__.random(q_name.length) - 1],
                 'answer': [q_formula]
             });
         }
