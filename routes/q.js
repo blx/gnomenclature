@@ -31,7 +31,7 @@ exports.q = function(req, res) {
                 return cat[1] + ' ' + an;
             });
 
-        var current_mode = (qmode === 'mixed' ? ['ftn', 'ntf'][__.random(1)] : qmode);
+        var current_mode = (qmode === 'mixed' ? ['ftn', 'ntf'][(__.random(1))] : qmode);
         
         if (current_mode === 'ftn') {
             obj.push({
