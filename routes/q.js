@@ -42,7 +42,7 @@ exports.q = function(req, res) {
         else if (current_mode === 'ntf') {
             obj.push({
                 'question': q_name[Math.round(Math.random() * q_name.length)],
-                'answer': q_formula
+                'answer': [q_formula]
             });
         }
     });
