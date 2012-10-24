@@ -14,13 +14,44 @@
         past: []
     };
     
+    var conf = {
+        qmode: 'mixed',
+        acids: true,
+        peroxides: true
+    };
+    
     var checkAnswers = function(evt) {
         if ((userans = $('#gn-userinput').val().trim().replace(/(\s)+/g, ' '))) {
+            
+//            conf.qmode = ( userans.match(/^\\c mode ([(on)|(off)])$/)[0]
             
             if (userans === '\\r') {
                 showReport();
                 updateChrome();
+            }/*
+            else if (userans === '\\conf') {
+                showConfig();
+                updateChrome();
             }
+            else if (userans.match(/^\\c mode ([(on)|(off)])$/) {
+                conf.qmode
+            }
+            else if (userans === '\\c peroxides on') {
+                conf.peroxides = true;
+                updateChrome();
+            }
+            else if (userans === '\\c peroxides off') {
+                conf.peroxides = false;
+                updateChrome();
+            }
+            else if (userans === '\\c acids on') {
+                conf.acids = true;
+                updateChrome();
+            }
+            else if (userans === '\\c acids off') {
+                conf.acids = false;
+                updateChrome();
+            }*/
             else {
                 var correct = (jQuery.inArray(userans, gn.q.answer) > -1);
             
@@ -62,13 +93,17 @@
                 $('<td/>').html(p.question),
                 $('<td/>').html(p.userAnswer).addClass(p.correct ? 'correct' : 'incorrect')));
         }
-    }
+    };
+    
+    var showConfig = function() {
+/*        $('#gn-config').append($('<ul/>').append(
+            $('<li/>').html(*/
+    };
     
     var updateChrome = function() {
         $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
         $('#gn-sesh-pts').html('pts ' + sesh.correct + '/' + sesh.answered);
-        $('#gn-userinput').val('');
-        $('#gn-userinput').focus();
+        $('#gn-userinput').val('').focus();
     };
     
     var init = function(evt) {
@@ -82,14 +117,14 @@
     
     /**********  gn.q  ***********************************************************/
     
-    (function(self, undefined) {
+    (function(self, conf, undefined) {
         self.question = '';
         self.answer = '';
         
         var queue = [];
         
         self.init = function() {
-            asyncRequestQuestions(false, 8);  // synchronous request for init
+            asyncRequestQuestions(false, 9);  // synchronous request for init
         };
         
         self.newQuestion = function() {
@@ -104,12 +139,14 @@
         };
         
         var asyncRequestQuestions = function(async, num) {
-            $.getJSON('q?n=' + ((typeof num === 'number') ? num : 7), function(jsn) {
-                queue.push.apply(queue, jsn);
-                if (!self.question) self.newQuestion();
-            });
+            $.getJSON('q?n=' + ((typeof num === 'number') ? num : 7) + '&mode=' + conf.qmode,
+                function(jsn) {
+                    queue.push.apply(queue, jsn);
+                    if (!self.question) self.newQuestion();
+                }
+            );
         };
-    })(gn.q = gn.q || {}); 
+    })(gn.q = gn.q || {}, conf); 
     
     $(init);
     
