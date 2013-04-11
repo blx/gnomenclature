@@ -1,10 +1,5 @@
-/*
- * Gnomenclature Project
- *
- * gn.scss
- *
- * Copyright 2012 Benjamin Cook <bc@benlxc.ca>
- */
+// Gnomenclature Project
+// Copyright 2013 Benjamin Cook <bc@benlxc.ca>
 
 $pagewidth: 500px;
 
@@ -33,7 +28,9 @@ input[type="text"] {
     font-size: 1.35em;
     color: #444;
     width: $pagewidth - 2 * 18px - 2;
-    border: 3px solid #ddd;
+    border: 2px solid #eee;
+    box-shadow: 0 0 16px #27c;
+    behavior: url("/js/PIE.htc");  // IE can die in a hole
 }
 
 input[type="submit"] {
@@ -54,6 +51,10 @@ footer {
 
 #gn-feedback {
     text-align: center;
+}
+
+#gn-config {
+    display: none;
 }
 
 td {

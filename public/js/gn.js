@@ -3,7 +3,7 @@
  *
  * gn.js
  *
- * Copyright 2012 Benjamin Cook <bc@benlxc.ca>
+ * Copyright 2013 Benjamin Cook <bc@benlxc.ca>
  */
 
 (function(gn, undefined) {
@@ -17,41 +17,21 @@
     var conf = {
         qmode: 'mixed',
         acids: true,
-        peroxides: true
+        peroxides: true,
+        hydrates: true
     };
     
     var checkAnswers = function(evt) {
-        if ((userans = $('#gn-userinput').val().trim().replace(/(\s)+/g, ' '))) {
-            
-//            conf.qmode = ( userans.match(/^\\c mode ([(on)|(off)])$/)[0]
+        if (( userans = $.trim($('#gn-userinput').val()).replace(/(\s)+/g, ' ') )) {
             
             if (userans === '\\r') {
                 showReport();
                 updateChrome();
-            }/*
+            } 
             else if (userans === '\\conf') {
                 showConfig();
                 updateChrome();
             }
-            else if (userans.match(/^\\c mode ([(on)|(off)])$/) {
-                conf.qmode
-            }
-            else if (userans === '\\c peroxides on') {
-                conf.peroxides = true;
-                updateChrome();
-            }
-            else if (userans === '\\c peroxides off') {
-                conf.peroxides = false;
-                updateChrome();
-            }
-            else if (userans === '\\c acids on') {
-                conf.acids = true;
-                updateChrome();
-            }
-            else if (userans === '\\c acids off') {
-                conf.acids = false;
-                updateChrome();
-            }*/
             else {
                 var correct = (jQuery.inArray(userans, gn.q.answer) > -1);
             
@@ -82,6 +62,7 @@
             }
         }
         evt.preventDefault();
+        evt.stopPropagation();
         return false;
     };
     
@@ -96,8 +77,13 @@
     };
     
     var showConfig = function() {
-/*        $('#gn-config').append($('<ul/>').append(
-            $('<li/>').html(*/
+        var modesdict = {
+            'mixed': 'Mixed',
+            'ntf': 'Name -> Formula',
+            'ftn': 'Formula -> Name'
+        };
+        // edit: added conf structure to layout instead of having it recreated each time in js.
+        $('#gn-config').css('display', 'block');
     };
     
     var updateChrome = function() {
@@ -107,7 +93,7 @@
     };
     
     var init = function(evt) {
-        $('#gn-form').on('submit', checkAnswers);
+        $('#gn-form').submit(checkAnswers);
         $('#gn-submit').css('display', 'none');
         checkAnswers.repeat = 0;
         gn.q.init();
@@ -124,7 +110,7 @@
         var queue = [];
         
         self.init = function() {
-            asyncRequestQuestions(false, 9);  // synchronous request for init
+            asyncRequestQuestions();
         };
         
         self.newQuestion = function() {
@@ -138,13 +124,11 @@
             $('#gn-q').html(self.question.replace(/(\d)/g, '<sub>$1</sub>'));
         };
         
-        var asyncRequestQuestions = function(async, num) {
-            $.getJSON('q?n=' + ((typeof num === 'number') ? num : 7) + '&mode=' + conf.qmode,
-                function(jsn) {
-                    queue.push.apply(queue, jsn);
-                    if (!self.question) self.newQuestion();
-                }
-            );
+        var asyncRequestQuestions = function() {
+            $.post('q?n=9', conf, function(jsn) {
+                queue.push.apply(queue, jsn);
+                if (!self.question) self.newQuestion();
+            }, 'json');
         };
     })(gn.q = gn.q || {}, conf); 
     
