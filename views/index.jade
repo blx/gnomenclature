@@ -3,17 +3,13 @@ extends layout
 block head
     script(src='/js/jquerylocal.js')
     script(src='/js/gn.js')
-    //if lt IE 9
-        script(src='/js/html5shiv-printshiv.js')
 
 block content
-    h1
-        span= title
     
     h2#gn-q
     
     form#gn-form
-        input#gn-userinput(type="text", spellcheck="false")
+        input#gn-userinput(type="text", spellcheck="false", autocomplete="off")
         input#gn-submit(type="submit")
 
     footer

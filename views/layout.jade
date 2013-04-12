@@ -3,6 +3,14 @@ html(lang="en")
     head
         title= title
         link(rel='stylesheet', href='/style/style.css')
+
+        //if lt IE 9
+            script(src='/js/html5shiv-printshiv.js')
+        
         block head
+
     body
+        h1
+            a(href="/")= title
+        
         block content

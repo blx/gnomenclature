@@ -16,6 +16,7 @@
     
     var conf = {
         qmode: 'mixed',
+        n: 9,
         acids: true,
         peroxides: true,
         hydrates: true
@@ -125,7 +126,7 @@
         };
         
         var asyncRequestQuestions = function() {
-            $.post('q?n=9', conf, function(jsn) {
+            $.get('q?conf=' + encodeURIComponent(JSON.stringify(conf)), function(jsn) {
                 queue.push.apply(queue, jsn);
                 if (!self.question) self.newQuestion();
             }, 'json');

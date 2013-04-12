@@ -9,19 +9,16 @@ body {
     margin: 0 auto;
 }
 
-h1, h2 {
-    font-weight: bold;
-}
-
 h1 {
     text-align: center;
-    color: #aaa;
-    margin-bottom: 44px;
+    margin-bottom: 55px;
     font-weight: normal;
     
-    span {
+    a {
+        color: #aaa;
         border-bottom: 3px solid #ddd;
         padding-bottom: 8px;
+        text-decoration: none;
     }
 }
 
