@@ -16,10 +16,14 @@
     
     var conf = {
         qmode: 'mixed',
-        n: 9,
         acids: true,
         peroxides: true,
         hydrates: true
+    };
+    
+    var confdisplay = {
+        qmodes: ['ntf', 'ftn', 'mixed'],
+        booleans: ['acids', 'peroxides', 'hydrates']
     };
     
     var checkAnswers = function(evt) {
@@ -77,15 +81,40 @@
         }
     };
     
-    var showConfig = function() {
-        var modesdict = {
-            'mixed': 'Mixed',
-            'ntf': 'Name -> Formula',
-            'ftn': 'Formula -> Name'
+    (function(self, conf, confdisplay) {
+            
+        var changeConfUI = function(dnew, dcurrent) {
+            $(dcurrent).removeClass("on");
+            $(dnew).addClass("on");
         };
-        // edit: added conf structure to layout instead of having it recreated each time in js.
-        $('#gn-config').css('display', 'block');
-    };
+        
+        // set up button mappings
+        self.init = function() {    
+            confdisplay.qmodes.map(function(qm) {
+                $('#conf-qmode-'+qm).click(function() {
+                    changeConfUI(this, '#conf-qmode-'+conf.qmode);
+                    conf.qmode = qm;
+                });
+            });
+        
+            confdisplay.booleans.map(function(f) {
+                $('#conf-'+f+'-on').click(function() {
+                    changeConfUI(this, '#conf-'+f+'-off');
+                    conf[f] = true;
+                });
+                $('#conf-'+f+'-off').click(function() {
+                    changeConfUI(this, '#conf-'+f+'-on');
+                    conf[f] = false;
+                });
+            });
+            
+            // draw initial config
+            $('#conf-qmode-'+conf.qmode).addClass("on");
+            confdisplay.booleans.map(function(c) {
+                $('#conf-' + c + (conf[c] ? '-on' : '-off')).addClass("on");
+            });
+        };
+    })(gn.confpanel = gn.confpanel || {}, conf, confdisplay);
     
     var updateChrome = function() {
         $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
@@ -98,6 +127,7 @@
         $('#gn-submit').css('display', 'none');
         checkAnswers.repeat = 0;
         gn.q.init();
+        gn.confpanel.init();
         updateChrome();
     };
     
@@ -126,7 +156,7 @@
         };
         
         var asyncRequestQuestions = function() {
-            $.get('q?conf=' + encodeURIComponent(JSON.stringify(conf)), function(jsn) {
+            $.get('q?n=8&conf=' + encodeURIComponent(JSON.stringify(conf)), function(jsn) {
                 queue.push.apply(queue, jsn);
                 if (!self.question) self.newQuestion();
             }, 'json');

@@ -12,9 +12,9 @@ module.exports = function(app) {
             iondb = require('./q.inc.js');
 
         var conf = JSON.parse(req.query.conf),
-            num = (conf.n &&
-                   conf.n <= iondb.cations.length &&
-                   conf.n <= iondb.anions.length) ? parseInt(conf.n) : 1,
+            num = (req.query.n &&
+                   req.query.n <= iondb.cations.length &&
+                   req.query.n <= iondb.anions.length) ? parseInt(req.query.n) : 1,
             qmode = (conf.qmode &&
                      __.contains(['ftn', 'ntf', 'mixed'], conf.qmode.toLowerCase())) ?
                      conf.qmode.toLowerCase() : 'mixed',
@@ -54,7 +54,6 @@ module.exports = function(app) {
                     q_name = __.union(q_name, rcat[rcat_i] + ' ' + ran[ran_i]);
                 }
             }
-        
 
             var current_mode = (qmode === 'mixed' ? ['ftn', 'ntf'][__.random(1)] : qmode);
         

@@ -9,20 +9,23 @@ body {
     margin: 0 auto;
 }
 
+h1, h2 {
+    font-weight: normal;
+}
+
 h1 {
     text-align: center;
-    margin-bottom: 55px;
-    font-weight: normal;
+    margin-bottom: 25px;
+    color: #999;
     
-    a {
-        color: #aaa;
+    span {
         border-bottom: 3px solid #ddd;
         padding-bottom: 8px;
-        text-decoration: none;
     }
 }
 
-h2 {
+#gn-q {
+    margin-top: 45px;
     height: 36px;
     font-weight: bold;
 }
@@ -58,7 +61,21 @@ footer {
 }
 
 #gn-config {
-    display: none;
+    td {
+        a {
+            background-color: #999;
+            padding: 2px 7px;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #fff;
+        }
+        a:hover {
+            cursor: pointer;
+        }
+        a.on {
+            background-color: #391;
+        }
+    }
 }
 
 td {
