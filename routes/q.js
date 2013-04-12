@@ -8,14 +8,13 @@
 
 module.exports = function(app) {
     app.get('/q', function(req, res) {
-        var __ = require('underscore');
-
-        require('./q.inc.js');
+        var __ = require('underscore'),
+            iondb = require('./q.inc.js');
 
         var conf = JSON.parse(req.query.conf),
             num = (conf.n &&
-                   conf.n <= _cations.length &&
-                   conf.n <= _anions.length) ? parseInt(conf.n) : 1,
+                   conf.n <= iondb.cations.length &&
+                   conf.n <= iondb.anions.length) ? parseInt(conf.n) : 1,
             qmode = (conf.qmode &&
                      __.contains(['ftn', 'ntf', 'mixed'], conf.qmode.toLowerCase())) ?
                      conf.qmode.toLowerCase() : 'mixed',
@@ -32,7 +31,7 @@ module.exports = function(app) {
     
          */
     
-        __.each(__.zip(pick(_cations), pick(_anions)), function(ar) {
+        __.each(__.zip(pick(iondb.cations), pick(iondb.anions)), function(ar) {
             var cat = ar[0], an = ar[1];
             var a = cat[2], c = Math.abs(an[2]);
         

@@ -8,7 +8,7 @@
 // NOTE:  IUPAC and Royal Society uses only "sulfur" with f.
 //        -> GNNE should accept both spellings but only use F in questions.
 
-_cations = [
+exports.cations = [
     ['H',   ['hydrogen'],              1, false, false],
     ['Li',  ['lithium'],               1, false, false],
     ['Be',  ['beryllium'],             2, false, false],
@@ -22,7 +22,7 @@ _cations = [
     ['NH4', ['ammonium'],              1, true, false]
 ];
 
-_anions = [
+exports.anions = [
     ['Br',    ['bromide'],                           -1, false, 'bromic'],
     ['Cl',    ['chloride'],                          -1, false, 'chloric'],
     ['F',     ['fluoride'],                          -1, false, 'fluoric'],

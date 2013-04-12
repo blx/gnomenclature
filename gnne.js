@@ -1,6 +1,7 @@
-
-/**
- * Module dependencies.
+/*
+ *    Gnomenclature Project
+ *
+ *    Copyright 2013 Benjamin Cook <bc@benlxc.ca>
  */
 
 var express = require('express'),
