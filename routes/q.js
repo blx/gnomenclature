@@ -10,13 +10,13 @@
 module.exports = function(app) {
     app.get('/q', function(req, res) {
         var __ = require('underscore'),
-            iondb = require('./q.inc.js');
+            gndb = require('./q.inc.js');
 
         var reqconf = JSON.parse(req.query.conf),
             conf = {
                 n: (req.query.n &&
-                      req.query.n <= iondb.cations.length &&
-                      req.query.n <= iondb.anions.length) ? parseInt(req.query.n) : 1,
+                    req.query.n <= gndb.cations.length &&
+                    req.query.n <= gndb.anions.length) ? parseInt(req.query.n) : 1,
                 qmode: (reqconf.qmode &&
                         __.contains(['ftn', 'ntf', 'mixed'], reqconf.qmode.toLowerCase())) ?
                         reqconf.qmode.toLowerCase() : 'mixed',
@@ -30,6 +30,14 @@ module.exports = function(app) {
             },
             parens = function(ion) {
                 return ( (ion.isradical && ion.n) ? ('(' + ion.symbol + ')') : ion.symbol ) + ion.n;
+            },
+            balance = function(cat, an) {
+                cat.n = Math.abs(an.charge);
+                an.n = cat.charge;
+            
+                if (cat.n == an.n)   cat.n = an.n = '';
+                else if (an.n == 1)  an.n = '';
+                else if (cat.n == 1) cat.n = '';
             };
     
         /* acids:
@@ -41,16 +49,7 @@ module.exports = function(app) {
     
          */
     
-        var balance = function(cat, an) {
-            cat.n = Math.abs(an.charge);
-            an.n = cat.charge;
-            
-            if (cat.n == an.n)   cat.n = an.n = '';
-            else if (an.n == 1)  an.n = '';
-            else if (cat.n == 1) cat.n = '';
-        };
-    
-        __.each(__.zip(pick(iondb.cations, conf.n), pick(iondb.anions, conf.n)), function(ar) {
+        __.each(__.zip(pick(gndb.cations, conf.n), pick(gndb.anions, conf.n)), function(ar) {
             var cat = {
                 symbol: ar[0][0],
                 names: ar[0][1],
@@ -65,6 +64,13 @@ module.exports = function(app) {
                 acidanionflag: ar[1][4]
             };
             
+            // TODO: make acid/hydrate etc. a probability, as in "70% of questions will be acids"
+            var opt = {
+                acid: conf.acids,
+                peroxide: conf.peroxides,
+                hydrate: conf.hydrates
+            };
+            
             balance(cat, an);
             
             var q_formula = parens(cat) + parens(an);
@@ -73,9 +79,27 @@ module.exports = function(app) {
             
             for (var ci = 0; ci < __.size(cat.names); ci++) {
                 for (var ai = 0; ai < __.size(an.names); ai++) {
-                    q_names = __.union(q_names, cat.names[ci] + ' ' + an.names[ai]);
+                    var newname = cat.names[ci] + ' ' + an.names[ai];
+
+                    q_names = __.union(q_names, newname);
                 }
             }
+            
+            // handle hydrates
+            if (opt.hydrate) {
+                hnum = __.random(1, 10);
+
+                hformula = hnum + 'H2O';
+                hname = gndb.hydrates[hnum];
+                
+                q_formula += ' ' + hformula;
+                q_names = __(q_names).map(function(name) {
+                    return name + ' ' + hname;
+                });
+            }
+            
+            
+            // append to response object
             
             var current_mode = (conf.qmode == 'mixed' ? ['ftn', 'ntf'][__.random(1)] : conf.qmode);
             

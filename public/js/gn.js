@@ -164,7 +164,9 @@
             
             if (queue.length < 4) asyncRequestQuestions();
             
-            $('#gn-q').html(self.question.replace(/(\d)/g, '<sub>$1</sub>'));
+            // TODO: combine these two regexes so they're less ugly.
+            self.question = self.question.replace(/_/g, '');
+            $('#gn-q').html(self.question.replace(/([\d])/g, '<sub>$1</sub>').replace(/ <sub>([\d])<\/sub>H/, ' $1H'));
         };
         
         var asyncRequestQuestions = function() {
