@@ -8,6 +8,8 @@
 // NOTE:  IUPAC and Royal Society uses only "sulfur" with f.
 //        -> GNNE should accept both spellings but only use F in questions.
 
+// TODO:  fix problems of "hydrogen dihydrogen phosphate" etc.
+
 exports.cations = [
     ['H',   ['hydrogen'],              1, false, false],
     ['Li',  ['lithium'],               1, false, false],

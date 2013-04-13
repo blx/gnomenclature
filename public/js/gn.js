@@ -92,6 +92,10 @@
         updateChrome();
     };
     
+    gn.focus = function() {
+        $('#gn-userinput').focus();
+    };
+    
     
     /**********  gn.confpanel  ***************************************************/
     (function(self, conf, confdisplay) {
@@ -107,6 +111,7 @@
                 $('#conf-qmode-'+qm).click(function() {
                     changeConfUI(this, '#conf-qmode-'+conf.qmode);
                     conf.qmode = qm;
+                    gn.q.init();
                 });
             });
         
@@ -114,10 +119,12 @@
                 $('#conf-'+f+'-on').click(function() {
                     changeConfUI(this, '#conf-'+f+'-off');
                     conf[f] = true;
+                    gn.q.init();
                 });
                 $('#conf-'+f+'-off').click(function() {
                     changeConfUI(this, '#conf-'+f+'-on');
                     conf[f] = false;
+                    gn.q.init();
                 });
             });
             
@@ -138,17 +145,19 @@
     /**********  gn.q  ***********************************************************/
     
     (function(self, conf, undefined) {
-        self.question = '';
-        self.answer = '';
-        
+
         var queue = [];
         
         self.init = function() {
+            queue = [];
+            self.question = '';
+            self.answer = '';
             asyncRequestQuestions();
+            gn.focus();
         };
         
         self.newQuestion = function() {
-            if (queue.length > 1) queue.splice(0, 1);
+            if (queue.length > 1) queue.splice(0, 1);  // remove previous question
 
             self.question = queue[0].question;
             self.answer = queue[0].answer;

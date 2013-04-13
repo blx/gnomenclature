@@ -6,6 +6,7 @@
  * out: - a JSON list of question-answers.
  */
 
+
 module.exports = function(app) {
     app.get('/q', function(req, res) {
         var __ = require('underscore'),
@@ -19,8 +20,11 @@ module.exports = function(app) {
                      __.contains(['ftn', 'ntf', 'mixed'], conf.qmode.toLowerCase())) ?
                      conf.qmode.toLowerCase() : 'mixed',
             obj = [],
-            pick = function(z) {return __.chain(z).shuffle().first(num).value();},
-            parens = function(radc, n) {return ((radc[3] && n) ? '(' + radc[0] + ')' : radc[0]) + n;};
+            pick = function(ar, n) { return __.first(__.shuffle(ar), n); };
+    
+        var parens = function(ion) {
+            return ( (ion.isradical && ion.n) ? ('(' + ion.symbol + ')') : ion.symbol ) + ion.n;
+        };
     
         /* acids:
     
@@ -31,41 +35,49 @@ module.exports = function(app) {
     
          */
     
-        __.each(__.zip(pick(iondb.cations), pick(iondb.anions)), function(ar) {
-            var cat = ar[0], an = ar[1];
-            var a = cat[2], c = Math.abs(an[2]);
-        
-            if (a === c)      a = c = '';
-            else if (a === 1) a = '';
-            else if (c === 1) c = '';
-        
-            var q_formula = parens(cat, c) + parens(an, a);
-            /*
-            var q_name = __.map((__.isArray(an[1]) ? an[1] : [an[1]]), function(an) {
-                    return cat[1] + ' ' + an;
-                });*/
-        
-            var q_name = [],
-                ran  = an[1],
-                rcat = cat[1];
-        
-            for (var rcat_i = 0; rcat_i < __.size(rcat); rcat_i++) {
-                for (var ran_i = 0; ran_i < __.size(ran); ran_i++) {
-                    q_name = __.union(q_name, rcat[rcat_i] + ' ' + ran[ran_i]);
+        __.each(__.zip(pick(iondb.cations, num), pick(iondb.anions, num)), function(ar) {
+            var cat = {
+                symbol: ar[0][0],
+                names: ar[0][1],
+                charge: ar[0][2],
+                isradical: ar[0][3]
+            };
+            var an = {
+                symbol: ar[1][0],
+                names: ar[1][1],
+                charge: ar[1][2],
+                isradical: ar[1][3],
+                acidanionflag: ar[1][4]
+            };
+            
+            cat.n = Math.abs(an.charge);
+            an.n = cat.charge;
+            
+            if (cat.n == an.n)   cat.n = an.n = '';
+            else if (an.n == 1)  an.n = '';
+            else if (cat.n == 1) cat.n = '';
+            
+            var q_formula = parens(cat) + parens(an);
+
+            var q_names = [];
+            
+            for (var ci = 0; ci < __.size(cat.names); ci++) {
+                for (var ai = 0; ai < __.size(an.names); ai++) {
+                    q_names = __.union(q_names, cat.names[ci] + ' ' + an.names[ai]);
                 }
             }
-
-            var current_mode = (qmode === 'mixed' ? ['ftn', 'ntf'][__.random(1)] : qmode);
-        
+            
+            var current_mode = (qmode == 'mixed' ? ['ftn', 'ntf'][__.random(1)] : qmode);
+            
             if (current_mode === 'ftn') {
                 obj.push({
                     'question': q_formula,
-                    'answer': q_name
+                    'answer': q_names
                 });
             }
             else if (current_mode === 'ntf') {
                 obj.push({
-                    'question': q_name[__.random(q_name.length - 1)],
+                    'question': q_names[__.random(q_names.length - 1)],
                     'answer': [q_formula]
                 });
             }
