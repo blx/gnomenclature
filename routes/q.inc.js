@@ -10,8 +10,6 @@
 //        -> GNNE should accept both spellings but only use F in questions.
 
 // TODO:  fix problems of "hydrogen dihydrogen phosphate" etc.
-// TODO:  is 9hydate nona or nova?
-// TODO:  is 1hydrate mono or no prefix?
 
 exports.cations = [
     ['H',   ['hydrogen'],              1, false, false],
@@ -78,7 +76,7 @@ exports.anions = [
 ];
 
 exports.hydrates = {
-    1: 'hydrate',
+    1: 'monohydrate',
     2: 'dihydrate',
     3: 'trihydrate',
     4: 'tetrahydrate',
