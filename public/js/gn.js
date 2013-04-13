@@ -72,10 +72,15 @@
             var p = sesh.past[i];
             
             $('#gn-report').append($('<tr/>').append(
-                $('<td/>').html(gn.q.formatFormula(p.question)),
-                $('<td/>').html(gn.q.formatFormula(p.userAnswer)).addClass(p.correct ? 'correct' : 'incorrect')));
+                $('<td/>').html(formatFormula(p.question)),
+                $('<td/>').html(formatFormula(p.userAnswer)).addClass(p.correct ? 'correct' : 'incorrect')));
         }
     };
+    
+    var formatFormula = function(f) {
+        // TODO: combine these two regexes so they're less ugly.
+        return f.replace(/([\d]+)/g, '<sub>$1</sub>').replace(/ <sub>([\d]+)<\/sub>H/, ' $1H');
+    }
     
     var updateChrome = function() {
         $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
@@ -144,7 +149,7 @@
     
     /**********  gn.q  ***********************************************************/
     
-    (function(self, conf, undefined) {
+    (function(self, conf) {
 
         var queue = [];
         
@@ -156,11 +161,6 @@
             gn.focus();
         };
         
-        self.formatFormula = function(f) {
-            // TODO: combine these two regexes so they're less ugly.
-            return f.replace(/([\d]+)/g, '<sub>$1</sub>').replace(/ <sub>([\d]+)<\/sub>H/, ' $1H');
-        }
-        
         self.newQuestion = function() {
             if (queue.length > 1) queue.splice(0, 1);  // remove previous question
 
@@ -169,7 +169,7 @@
             
             if (queue.length < 4) asyncRequestQuestions();
 
-            $('#gn-q').html(self.formatFormula(self.question));
+            $('#gn-q').html(formatFormula(self.question));
         };
         
         var asyncRequestQuestions = function() {
@@ -178,7 +178,7 @@
                 if (!self.question) self.newQuestion();
             }, 'json');
         };
-    })(gn.q = gn.q || {}, conf); 
+    })(gn.q = gn.q || {}, conf);
     
     $(init);
     

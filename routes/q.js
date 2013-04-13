@@ -61,7 +61,7 @@ module.exports = function(app) {
                 names: ar[1][1],
                 charge: ar[1][2],
                 isradical: ar[1][3],
-                acidanionflag: ar[1][4]
+                acidanionnames: ar[1][4]
             };
             
             // TODO: make acid/hydrate etc. a probability, as in "70% of questions will be acids"
@@ -71,22 +71,50 @@ module.exports = function(app) {
                 hydrate: conf.hydrates
             };
             
+                        
+            // handle acids
+            if (opt.acid) {
+                cat = {
+                    symbol: 'H',
+                    names: ['hydrogen'],
+                    charge: 1,
+                    isradical: false
+                };
+            }
+            
             balance(cat, an);
             
             var q_formula = parens(cat) + parens(an);
 
             var q_names = [];
             
-            for (var ci = 0; ci < __.size(cat.names); ci++) {
-                for (var ai = 0; ai < __.size(an.names); ai++) {
-                    var newname = cat.names[ci] + ' ' + an.names[ai];
+            // handle acids
+            if (opt.acid) {
+                q_formula += '(aq)';
+                
+                if (!an.isradical) {
+                    q_names = __(an.acidanionnames).map(function(name) {
+                        return "hydro" + name + " acid";
+                    });
+                }
+                else {
+                    q_names = __(an.acidanionnames).map(function(root) {
+                        return root + " acid";
+                    });
+                }
+            }
+            else {
+                for (var ci = 0; ci < __.size(cat.names); ci++) {
+                    for (var ai = 0; ai < __.size(an.names); ai++) {
+                        var newname = cat.names[ci] + ' ' + an.names[ai];
 
-                    q_names = __.union(q_names, newname);
+                        q_names = __.union(q_names, newname);
+                    }
                 }
             }
             
             // handle hydrates
-            if (opt.hydrate) {
+            if (opt.hydrate && !opt.acid) {
                 hnum = __.random(1, 10);
 
                 hformula = hnum + 'H2O';
