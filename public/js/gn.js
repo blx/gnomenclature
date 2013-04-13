@@ -19,12 +19,13 @@
         acids: true,
         peroxides: true,
         hydrates: true,
-        multivalents: true
+        multivalents: 'mixed'
     };
     
     var confdisplay = {
         qmodes: ['ntf', 'ftn', 'mixed'],
-        booleans: ['acids', 'peroxides', 'hydrates', 'multivalents']
+        multivalents: ['mixed', 'latin', 'iupac', 'off'],
+        booleans: ['acids', 'peroxides', 'hydrates']
     };
     
     var checkAnswers = function(evt) {
@@ -111,12 +112,22 @@
             $(dnew).addClass("on");
         };
         
+        // *******************************************************
+        // TODO: is array.map() available in IE7? If not, install underscore.js
+        
         // set up button mappings
         self.init = function() {    
             confdisplay.qmodes.map(function(qm) {
                 $('#conf-qmode-'+qm).click(function() {
                     changeConfUI(this, '#conf-qmode-'+conf.qmode);
                     conf.qmode = qm;
+                    gn.q.init();
+                });
+            });
+            confdisplay.multivalents.map(function(mv) {
+                $('#conf-multivalents-'+mv).click(function() {
+                    changeConfUI(this, '#conf-multivalents-'+conf.multivalents);
+                    conf.multivalents = mv;
                     gn.q.init();
                 });
             });
@@ -136,6 +147,7 @@
             
             // draw initial config
             $('#conf-qmode-'+conf.qmode).addClass("on");
+            $('#conf-multivalents-'+conf.multivalents).addClass("on");
             confdisplay.booleans.map(function(c) {
                 $('#conf-' + c + (conf[c] ? '-on' : '-off')).addClass("on");
             });
