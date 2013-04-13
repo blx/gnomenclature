@@ -18,12 +18,13 @@
         qmode: 'mixed',
         acids: true,
         peroxides: true,
-        hydrates: true
+        hydrates: true,
+        multivalents: true
     };
     
     var confdisplay = {
         qmodes: ['ntf', 'ftn', 'mixed'],
-        booleans: ['acids', 'peroxides', 'hydrates']
+        booleans: ['acids', 'peroxides', 'hydrates', 'multivalents']
     };
     
     var checkAnswers = function(evt) {
