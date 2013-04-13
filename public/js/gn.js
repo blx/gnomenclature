@@ -151,9 +151,11 @@
     
     (function(self, conf) {
 
-        var queue = [];
+        var queue = [],
+            refresh = true;
         
         self.init = function() {
+            refresh = true;
             queue = [];
             self.question = '';
             self.answer = '';
@@ -162,7 +164,8 @@
         };
         
         self.newQuestion = function() {
-            if (queue.length > 1) queue.splice(0, 1);  // remove previous question
+            console.log(refresh);
+            if (queue.length > 1 && !refresh) queue.splice(0, 1);  // remove previous question
 
             self.question = queue[0].question;
             self.answer = queue[0].answer;
@@ -174,8 +177,10 @@
         
         var asyncRequestQuestions = function() {
             $.get('q?n=8&conf=' + encodeURIComponent(JSON.stringify(conf)), function(jsn) {
+                var ql = queue.length;
                 queue.push.apply(queue, jsn);
                 if (!self.question) self.newQuestion();
+                if (ql == 0) refresh = false;
             }, 'json');
         };
     })(gn.q = gn.q || {}, conf);

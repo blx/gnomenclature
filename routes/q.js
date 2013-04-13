@@ -54,7 +54,8 @@ module.exports = function(app) {
                 symbol: ar[0][0],
                 names: ar[0][1],
                 charge: ar[0][2],
-                isradical: ar[0][3]
+                isradical: ar[0][3],
+                ismultivalent: ar[0][4]
             };
             var an = {
                 symbol: ar[1][0],
@@ -66,7 +67,7 @@ module.exports = function(app) {
             
             // TODO: make acid/hydrate etc. a probability, as in "70% of questions will be acids"
             var opt = {
-                acid: conf.acids,
+                acid: conf.acids && an.acidanionnames,
                 peroxide: conf.peroxides,
                 hydrate: conf.hydrates
             };

@@ -2,7 +2,8 @@
  * 1:  name(s)
  * 2:  charge
  * 3:  is radical?
- * 4:  can be acid anion?
+ * [cation] 4:  is mutivalent?
+ * [anion]  4:  can be acid anion?
  */
 
 // NOTE:  IUPAC and Royal Society uses only "sulfur" with f.
@@ -23,7 +24,12 @@ exports.cations = [
     ['Ca',  ['calcium'],               2, false, false],
     ['Ba',  ['barium'],                2, false, false],
     
-    ['NH4', ['ammonium'],              1, true, false]
+    ['NH4', ['ammonium'],              1, true, false],
+    
+    ['Cu', ['copper I', 'cuprous'],    1, false, true],
+    ['Cu', ['copper II', 'cupric'],    2, false, true],
+    ['Fe', ['iron II', 'ferrous'],     2, false, true],
+    ['Fe', ['iron III', 'ferric'],     3, false, true]
 ];
 
 exports.anions = [
