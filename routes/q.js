@@ -12,7 +12,8 @@
 module.exports = function(app) {
     app.get('/q', function(req, res) {
         var __ = require('underscore'),
-            gndb = require('./q.inc.js');
+            gndb = require('./q.inc.js'),
+            util = require('util');
 
         var reqconf = JSON.parse(req.query.conf),
             conf = {
@@ -25,7 +26,7 @@ module.exports = function(app) {
                 acids: (reqconf.acids || false),
                 hydrates: (reqconf.hydrates || false),
                 peroxides: (reqconf.peroxides || false),
-                multivalents: (reqconf.multivalents || false)
+                multivalents: (reqconf.multivalents != 'off' ? reqconf.multivalents : false)
             },
             obj = [],
             pick = function(ar, n) {
@@ -53,7 +54,8 @@ module.exports = function(app) {
         // generate option list for each of the [n] requested questions
         var opts = __.map(__.range(0, conf.n), function() {
             return {
-                acid: oneinchance(2) ? conf.acids : false,
+                qmode: (conf.qmode == 'mixed' ? pickone(['ntf', 'ftn']) : conf.qmode),
+                acid: oneinchance(3) ? conf.acids : false,
                 peroxide: conf.peroxides,
                 hydrate: oneinchance(2) ? conf.hydrates : false,
                 multivalent: oneinchance(2) ? conf.multivalents : false
@@ -62,6 +64,8 @@ module.exports = function(app) {
         
         // pick ions for each of the [n] requested questions
         var ionsets = __.map(opts, function(opt) {
+            var cation, anion;
+            
             if (opt.acid) {
                 cation = gndb.cations[0];
                 anion = pickone(__.filter(gndb.anions, function(an) {
@@ -72,6 +76,7 @@ module.exports = function(app) {
                 cation = pickone(__.filter(gndb.cations, function(cat) {
                     return cat[4] ? true : false;
                 }));
+            
                 anion = pickone(gndb.anions);
             }
             else {
@@ -111,6 +116,12 @@ module.exports = function(app) {
             var q_formula = parens(cat) + parens(an);
             var q_names = [];
 
+            // multivalent modes: if not "mixed", allow only certain types
+            if (opt.multivalent == "latin")
+                cat.names = [cat.names[1]];
+            else if (opt.multivalent == "iupac")
+                cat.names = [cat.names[0]];
+
             if (opt.acid) {
                 q_formula += '(aq)';
                 
@@ -139,7 +150,7 @@ module.exports = function(app) {
             if (opt.hydrate && !opt.acid) {
                 hnum = __.random(1, 10);
 
-                hformula = hnum + 'H2O';
+                hformula = (hnum > 1 ? hnum : '') + 'H2O';
                 hname = gndb.hydrates[hnum];
                 
                 q_formula += ' ' + hformula;
@@ -151,15 +162,13 @@ module.exports = function(app) {
             
             // append to response object
             
-            var current_mode = (conf.qmode == 'mixed' ? ['ftn', 'ntf'][__.random(1)] : conf.qmode);
-            
-            if (current_mode === 'ftn') {
+            if (opt.qmode == 'ftn') {
                 obj.push({
                     'question': q_formula,
                     'answer': q_names
                 });
             }
-            else if (current_mode === 'ntf') {
+            else if (opt.qmode == 'ntf') {
                 obj.push({
                     'question': q_names[__.random(q_names.length - 1)],
                     'answer': [q_formula]
