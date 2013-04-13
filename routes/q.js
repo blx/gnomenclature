@@ -12,19 +12,25 @@ module.exports = function(app) {
         var __ = require('underscore'),
             iondb = require('./q.inc.js');
 
-        var conf = JSON.parse(req.query.conf),
-            num = (req.query.n &&
-                   req.query.n <= iondb.cations.length &&
-                   req.query.n <= iondb.anions.length) ? parseInt(req.query.n) : 1,
-            qmode = (conf.qmode &&
-                     __.contains(['ftn', 'ntf', 'mixed'], conf.qmode.toLowerCase())) ?
-                     conf.qmode.toLowerCase() : 'mixed',
+        var reqconf = JSON.parse(req.query.conf),
+            conf = {
+                n: (req.query.n &&
+                      req.query.n <= iondb.cations.length &&
+                      req.query.n <= iondb.anions.length) ? parseInt(req.query.n) : 1,
+                qmode: (reqconf.qmode &&
+                        __.contains(['ftn', 'ntf', 'mixed'], reqconf.qmode.toLowerCase())) ?
+                        reqconf.qmode.toLowerCase() : 'mixed',
+                acids: (reqconf.acids || false),
+                hydrates: (reqconf.hydrates || false),
+                peroxides: (reqconf.peroxides || false)
+            },
             obj = [],
-            pick = function(ar, n) { return __.first(__.shuffle(ar), n); };
-    
-        var parens = function(ion) {
-            return ( (ion.isradical && ion.n) ? ('(' + ion.symbol + ')') : ion.symbol ) + ion.n;
-        };
+            pick = function(ar, n) {
+                return __.first(__.shuffle(ar), n);
+            },
+            parens = function(ion) {
+                return ( (ion.isradical && ion.n) ? ('(' + ion.symbol + ')') : ion.symbol ) + ion.n;
+            };
     
         /* acids:
     
@@ -35,7 +41,16 @@ module.exports = function(app) {
     
          */
     
-        __.each(__.zip(pick(iondb.cations, num), pick(iondb.anions, num)), function(ar) {
+        var balance = function(cat, an) {
+            cat.n = Math.abs(an.charge);
+            an.n = cat.charge;
+            
+            if (cat.n == an.n)   cat.n = an.n = '';
+            else if (an.n == 1)  an.n = '';
+            else if (cat.n == 1) cat.n = '';
+        };
+    
+        __.each(__.zip(pick(iondb.cations, conf.n), pick(iondb.anions, conf.n)), function(ar) {
             var cat = {
                 symbol: ar[0][0],
                 names: ar[0][1],
@@ -50,12 +65,7 @@ module.exports = function(app) {
                 acidanionflag: ar[1][4]
             };
             
-            cat.n = Math.abs(an.charge);
-            an.n = cat.charge;
-            
-            if (cat.n == an.n)   cat.n = an.n = '';
-            else if (an.n == 1)  an.n = '';
-            else if (cat.n == 1) cat.n = '';
+            balance(cat, an);
             
             var q_formula = parens(cat) + parens(an);
 
@@ -67,7 +77,7 @@ module.exports = function(app) {
                 }
             }
             
-            var current_mode = (qmode == 'mixed' ? ['ftn', 'ntf'][__.random(1)] : qmode);
+            var current_mode = (conf.qmode == 'mixed' ? ['ftn', 'ntf'][__.random(1)] : conf.qmode);
             
             if (current_mode === 'ftn') {
                 obj.push({
