@@ -72,8 +72,8 @@
             var p = sesh.past[i];
             
             $('#gn-report').append($('<tr/>').append(
-                $('<td/>').html(p.question),
-                $('<td/>').html(p.userAnswer).addClass(p.correct ? 'correct' : 'incorrect')));
+                $('<td/>').html(gn.q.formatFormula(p.question)),
+                $('<td/>').html(gn.q.formatFormula(p.userAnswer)).addClass(p.correct ? 'correct' : 'incorrect')));
         }
     };
     
@@ -157,6 +157,7 @@
         };
         
         self.formatFormula = function(f) {
+            // TODO: combine these two regexes so they're less ugly.
             return f.replace(/([\d]+)/g, '<sub>$1</sub>').replace(/ <sub>([\d]+)<\/sub>H/, ' $1H');
         }
         
@@ -167,8 +168,7 @@
             self.answer = queue[0].answer;
             
             if (queue.length < 4) asyncRequestQuestions();
-            
-            // TODO: combine these two regexes so they're less ugly.
+
             $('#gn-q').html(self.formatFormula(self.question));
         };
         
