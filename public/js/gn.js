@@ -156,6 +156,10 @@
             gn.focus();
         };
         
+        self.formatFormula = function(f) {
+            return f.replace(/([\d]+)/g, '<sub>$1</sub>').replace(/ <sub>([\d]+)<\/sub>H/, ' $1H');
+        }
+        
         self.newQuestion = function() {
             if (queue.length > 1) queue.splice(0, 1);  // remove previous question
 
@@ -165,8 +169,7 @@
             if (queue.length < 4) asyncRequestQuestions();
             
             // TODO: combine these two regexes so they're less ugly.
-            self.question = self.question.replace(/_/g, '');
-            $('#gn-q').html(self.question.replace(/([\d])/g, '<sub>$1</sub>').replace(/ <sub>([\d])<\/sub>H/, ' $1H'));
+            $('#gn-q').html(self.formatFormula(self.question));
         };
         
         var asyncRequestQuestions = function() {
