@@ -32,10 +32,6 @@
             if (userans === '\\r') {
                 showReport();
                 updateChrome();
-            } 
-            else if (userans === '\\conf') {
-                showConfig();
-                updateChrome();
             }
             else {
                 var correct = (jQuery.inArray(userans, gn.q.answer) > -1);
@@ -81,6 +77,23 @@
         }
     };
     
+    var updateChrome = function() {
+        $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
+        $('#gn-sesh-pts').html(sesh.correct + '/' + sesh.answered);
+        $('#gn-userinput').val('').focus();
+    };
+    
+    var init = function(evt) {
+        $('#gn-form').submit(checkAnswers);
+        $('#gn-submit').css('display', 'none');
+        checkAnswers.repeat = 0;
+        gn.q.init();
+        gn.confpanel.init();
+        updateChrome();
+    };
+    
+    
+    /**********  gn.confpanel  ***************************************************/
     (function(self, conf, confdisplay) {
             
         var changeConfUI = function(dnew, dcurrent) {
@@ -113,23 +126,13 @@
             confdisplay.booleans.map(function(c) {
                 $('#conf-' + c + (conf[c] ? '-on' : '-off')).addClass("on");
             });
+            
+            $('#gn-title').click(function() {
+                $('#gn-header').slideToggle(300);
+                $('#gn-userinput').focus();
+            });
         };
     })(gn.confpanel = gn.confpanel || {}, conf, confdisplay);
-    
-    var updateChrome = function() {
-        $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
-        $('#gn-sesh-pts').html('pts ' + sesh.correct + '/' + sesh.answered);
-        $('#gn-userinput').val('').focus();
-    };
-    
-    var init = function(evt) {
-        $('#gn-form').submit(checkAnswers);
-        $('#gn-submit').css('display', 'none');
-        checkAnswers.repeat = 0;
-        gn.q.init();
-        gn.confpanel.init();
-        updateChrome();
-    };
     
     
     /**********  gn.q  ***********************************************************/

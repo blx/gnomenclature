@@ -4,6 +4,8 @@
  *    Copyright 2013 Benjamin Cook <bc@benlxc.ca>
  */
 
+// todo: handle errors (eg. 404)
+
 var express = require('express'),
     http = require('http'),
     path = require('path'),
@@ -12,7 +14,6 @@ var express = require('express'),
 [
     'index',
     'q',
-    'about'
 ].map(function(routeName) {
     require('./routes/' + routeName)(app);
 });

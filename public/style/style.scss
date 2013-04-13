@@ -15,8 +15,8 @@ h1, h2 {
 
 h1 {
     text-align: center;
-    margin-bottom: 25px;
-    color: #999;
+    margin-bottom: 30px;
+    color: #aaa;
     
     span {
         border-bottom: 3px solid #ddd;
@@ -24,9 +24,35 @@ h1 {
     }
 }
 
+#gn-header {
+    h2 {
+        margin: 0;
+    }
+}
+
+#gn-config {
+    td {
+        padding: 0.4em 3em 0.4em 0;
+        
+        a {
+            background-color: #999;
+            padding: 2px 7px;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #fff;
+        }
+        a:hover {
+            cursor: pointer;
+        }
+        a.on {
+            background-color: #391;
+        }
+    }
+}
+
 #gn-q {
-    margin-top: 45px;
-    height: 36px;
+//    margin-top: 45px;
+//    height: 36px;
     font-weight: bold;
 }
 
@@ -58,28 +84,6 @@ footer {
 
 #gn-feedback {
     text-align: center;
-}
-
-#gn-config {
-    td {
-        a {
-            background-color: #999;
-            padding: 2px 7px;
-            margin-right: 10px;
-            text-decoration: none;
-            color: #fff;
-        }
-        a:hover {
-            cursor: pointer;
-        }
-        a.on {
-            background-color: #391;
-        }
-    }
-}
-
-td {
-    padding: 0.4em 3em 0.4em 0;
 }
 
 .correct {
