@@ -1,3 +1,5 @@
+// Gnomenclature Project
+// Copyright 2013 Benjamin Cook <bc@benlxc.ca>
 
 /*
  * in:  - GET request for q?n=[..]&conf=[....]
@@ -42,18 +44,19 @@ module.exports = function(app) {
                 if (cat.n == an.n)   cat.n = an.n = '';
                 else if (an.n == 1)  an.n = '';
                 else if (cat.n == 1) cat.n = '';
+            },
+            oneinchance = function(oneinchance) {
+                return pickone( __.range(0, oneinchance) ) > 0 ? false : true;
             };
 
-
-        // TODO: make acid/hydrate etc. a probability, as in "70% of questions will be acids"
         
         // generate option list for each of the [n] requested questions
         var opts = __.map(__.range(0, conf.n), function() {
             return {
-                acid: conf.acids,
+                acid: oneinchance(2) ? conf.acids : false,
                 peroxide: conf.peroxides,
-                hydrate: conf.hydrates,
-                multivalent: conf.multivalents
+                hydrate: oneinchance(2) ? conf.hydrates : false,
+                multivalent: oneinchance(2) ? conf.multivalents : false
             }
         });
         
