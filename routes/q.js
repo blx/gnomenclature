@@ -72,7 +72,9 @@ module.exports = function(app) {
                 anion = pickone(gndb.anions);
             }
             else {
-                cation = pickone(gndb.cations);
+                cation = pickone(__.filter(gndb.cations, function(cat) {
+                    return cat[4] ? false : true;
+                }));
                 anion = pickone(gndb.anions);
             }
             
