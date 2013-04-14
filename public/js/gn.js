@@ -31,8 +31,8 @@
     var checkAnswers = function(evt) {
         if (( userans = $.trim($('#gn-userinput').val()).replace(/(\s)+/g, ' ') )) {
             
-            if (userans === '\\r') {
-                showReport();
+            if (userans === '\\r' || userans === 'report') {
+                toggleReport();
                 updateChrome();
             }
             else {
@@ -69,14 +69,22 @@
         return false;
     };
     
-    var showReport = function() {
-        for (var i = $('#gn-report tr').length, j = sesh.past.length; i < j; i++) {
+    var toggleReport = function() {
+        gn.focus();
+        updateReport();
+        $('#gn-report').slideToggle(200);
+    };
+    
+    var updateReport = function() {
+        var tablelen = $('#gn-report-table tr').length;
+        for (var i = tablelen, j = sesh.past.length; i < j; i++) {
             var p = sesh.past[i];
             
-            $('#gn-report').append($('<tr/>').append(
+            $('#gn-report-table').append($('<tr/>').append(
                 $('<td/>').html(formatFormula(p.question)),
                 $('<td/>').html(formatFormula(p.userAnswer)).addClass(p.correct ? 'correct' : 'incorrect')));
         }
+        return i - tablelen;  // number of elements added
     };
     
     var formatFormula = function(f) {
@@ -85,12 +93,22 @@
     }
     
     var updateChrome = function() {
-        $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
+        if ($('#gn-report').css('display') != 'none')
+            updateReport();
+//        $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
+        $('#gn-sesh-q').html("");
         $('#gn-sesh-pts').html(sesh.correct + '/' + sesh.answered);
         $('#gn-userinput').val('').focus();
     };
     
     var init = function(evt) {
+        $('#hide-header span').click(gn.confpanel.hideConf).hover(function() {
+            $('#gn-header').toggleClass("linkhover");
+        });
+        $('#gn-userinput').keypress(function() {
+            $('#gn-header').slideUp(100);
+        });
+        $('#gn-sesh-pts').click(toggleReport);
         $('#gn-form').submit(checkAnswers);
         $('#gn-submit').css('display', 'none');
         checkAnswers.repeat = 0;
@@ -152,10 +170,17 @@
                 $('#conf-' + c + (conf[c] ? '-on' : '-off')).addClass("on");
             });
             
-            $('#gn-title').click(function() {
-                $('#gn-header').slideToggle(300);
-                $('#gn-userinput').focus();
-            });
+            $('#gn-title').click(self.toggleConf);
+        };
+        
+        self.hideConf = function() {
+            $('#gn-header').slideUp(250);
+            gn.focus();
+        };
+        
+        self.toggleConf = function() {
+            $('#gn-header').slideToggle(300);
+            gn.focus();
         };
     })(gn.confpanel = gn.confpanel || {}, conf, confdisplay);
     

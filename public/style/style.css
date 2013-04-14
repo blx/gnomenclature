@@ -1,10 +1,23 @@
+.link {
+  border-bottom: 2px solid #bbb; }
+
+.linkhover {
+  cursor: pointer;
+  color: #222;
+  background-color: #eee; }
+
 body {
   font-family: Helvetica, sans-serif;
   width: 500px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  color: #000;
+  background-color: #fff; }
 
 h1, h2 {
   font-weight: normal; }
+
+a {
+  text-decoration: none; }
 
 h1 {
   text-align: center;
@@ -13,9 +26,40 @@ h1 {
   h1 span {
     border-bottom: 3px solid #ddd;
     padding-bottom: 8px; }
+  h1 span:hover {
+    cursor: pointer;
+    color: #222;
+    background-color: #eee; }
 
 #gn-header h2 {
   margin-top: 0; }
+#gn-header p {
+  color: #777; }
+  #gn-header p a {
+    color: #777;
+    border-bottom: 2px solid #bbb; }
+    #gn-header p a:hover {
+      cursor: pointer;
+      color: #222;
+      background-color: #eee; }
+#gn-header #hide-header {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 50px;
+  border-bottom: 2px solid #bbb;
+  height: 0.5em; }
+  #gn-header #hide-header span {
+    background-color: #fff;
+    color: #666;
+    padding: 0 12px;
+    border-left: 2px solid #bbb;
+    border-right: 2px solid #bbb; }
+    #gn-header #hide-header span:hover {
+      cursor: pointer;
+      color: #222;
+      background-color: #eee;
+      background-color: #fff; }
 
 #gn-config td {
   padding: 0.4em 3em 0.4em 0; }
@@ -23,12 +67,11 @@ h1 {
     background-color: #999;
     padding: 2px 7px;
     margin-right: 10px;
-    text-decoration: none;
     color: #fff; }
-  #gn-config td a:hover {
-    cursor: pointer; }
-  #gn-config td a.on {
-    background-color: #391; }
+    #gn-config td a:hover {
+      cursor: pointer; }
+    #gn-config td a.on {
+      background-color: #391; }
 
 #gn-q {
   font-size: 24px;
@@ -52,10 +95,26 @@ footer p {
   display: inline-block;
   color: #888; }
 footer #gn-sesh-pts {
-  float: right; }
+  float: right;
+  border-bottom: 2px solid #bbb; }
+  footer #gn-sesh-pts:hover {
+    cursor: pointer;
+    color: #222;
+    background-color: #eee; }
 
 #gn-feedback {
   text-align: center; }
+
+#gn-report {
+  display: none; }
+  #gn-report table {
+    width: 100%; }
+  #gn-report td {
+    width: 48%;
+    height: 1.5em; }
+  #gn-report tr td:first-of-type {
+    text-align: right;
+    padding-right: 1.5em; }
 
 .correct {
   color: #0a0; }

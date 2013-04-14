@@ -3,14 +3,36 @@
 
 $pagewidth: 500px;
 
+@mixin m_link {
+    border-bottom: 2px solid #bbb;
+}
+.link {
+    @include m_link;
+}
+@mixin m_linkhover {
+    cursor: pointer;
+    color: #222;
+    background-color: #eee;
+}
+.linkhover {
+    @include m_linkhover;
+}
+
+
 body {
     font-family: Helvetica, sans-serif;
     width: $pagewidth;
     margin: 0 auto;
+    color: #000;
+    background-color: #fff;
 }
 
 h1, h2 {
     font-weight: normal;
+}
+
+a {
+    text-decoration: none;
 }
 
 h1 {
@@ -22,11 +44,48 @@ h1 {
         border-bottom: 3px solid #ddd;
         padding-bottom: 8px;
     }
+    span:hover {
+        @include m_linkhover;
+    }
 }
 
 #gn-header {
     h2 {
-        margin-top: 0;
+        margin-top: 0;  // helps smooth the sliding
+    }
+    p {
+        color: #777;
+        a {
+            color: #777;
+            border-bottom: 2px solid #bbb;
+            
+            &:hover {
+                @include m_linkhover;
+            }
+        }
+    }
+    
+    #hide-header {
+        display: block;
+        text-align: center;
+        margin-top: 16px;
+        margin-bottom: 50px;
+        
+        border-bottom: 2px solid #bbb;
+        height: 0.5em;
+        
+        span {
+            background-color: #fff;
+            color: #666;
+            padding: 0 12px;
+            border-left: 2px solid #bbb;
+            border-right: 2px solid #bbb;
+            
+            &:hover {
+                @include m_linkhover;
+                background-color: #fff;
+            }
+        }
     }
 }
 
@@ -38,20 +97,20 @@ h1 {
             background-color: #999;
             padding: 2px 7px;
             margin-right: 10px;
-            text-decoration: none;
             color: #fff;
-        }
-        a:hover {
-            cursor: pointer;
-        }
-        a.on {
-            background-color: #391;
+            
+            &:hover {
+                cursor: pointer;
+            }
+            
+            &.on {
+                background-color: #391;
+            }
         }
     }
 }
 
 #gn-q {
-//    margin-top: 45px;
     font-size: 24px;
     height: 36px;
     font-weight: bold;
@@ -80,11 +139,33 @@ footer {
     
     #gn-sesh-pts {
         float: right;
+        @include m_link;
+        
+        &:hover {
+            @include m_linkhover;
+        }
     }
 }
 
 #gn-feedback {
     text-align: center;
+}
+
+#gn-report {
+    display: none;
+    
+    table {
+        width: 100%;
+    }
+    
+    td {
+        width: 48%;
+        height: 1.5em;
+    }
+    tr td:first-of-type {
+        text-align: right;
+        padding-right: 1.5em;
+    }
 }
 
 .correct {

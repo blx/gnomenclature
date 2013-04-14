@@ -8,6 +8,7 @@ block content
     
     #gn-header
         h2#gn-about gnomenclature helps you practice inorganic chemical nomenclature.
+        p created by <a href="http://bencook.ca">ben cook</a>
         
         #gn-config
             table
@@ -18,17 +19,17 @@ block content
                         a#conf-qmode-ntf names
                         a#conf-qmode-ftn formulas
                 tr
-                    td acids
-                    td
-                        a#conf-acids-on on
-                        a#conf-acids-off off
-                tr
                     td multivalents
                     td
                         a#conf-multivalents-mixed mixed
                         a#conf-multivalents-latin latin
                         a#conf-multivalents-iupac iupac
                         a#conf-multivalents-off off
+                tr
+                    td acids
+                    td
+                        a#conf-acids-on on
+                        a#conf-acids-off off
                 tr
                     td peroxides
                     td
@@ -39,6 +40,9 @@ block content
                     td
                         a#conf-hydrates-on on
                         a#conf-hydrates-off off
+            
+            a#hide-header
+                span hide
         
     
     h2#gn-q
@@ -47,10 +51,11 @@ block content
         input#gn-userinput(type="text", spellcheck="false", autocomplete="off")
         input#gn-submit(type="submit")
 
-    footer
+    footer#gn-footer
         p#gn-sesh-q
         p#gn-sesh-pts
     
     p#gn-feedback
     
-    table#gn-report
+    #gn-report
+        table#gn-report-table
