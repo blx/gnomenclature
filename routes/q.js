@@ -35,28 +35,32 @@ module.exports = function(app) {
             pickone = function(ar) {
                 return pick(ar, 1)[0];
             },
+            oneinchance = function(oneinchance) {
+                return pickone( __.range(0, oneinchance) ) > 0 ? false : true;
+            },
             parens = function(ion) {
                 return ( (ion.isradical && ion.n) ? ('(' + ion.symbol + ')') : ion.symbol ) + ion.n;
             },
-            balance = function(cat, an) {
+            balance = function(cat, an, isperoxide) {
                 cat.n = Math.abs(an.charge);
                 an.n = cat.charge;
-            
+                
                 if (cat.n == an.n)   cat.n = an.n = '';
                 else if (an.n == 1)  an.n = '';
                 else if (cat.n == 1) cat.n = '';
-            },
-            oneinchance = function(oneinchance) {
-                return pickone( __.range(0, oneinchance) ) > 0 ? false : true;
+                
+                if (isperoxide)
+                    an.n = an.n ? an.n+1 : 2;
             };
 
         
         // generate option list for each of the [n] requested questions
         var opts = __.map(__.range(0, conf.n), function() {
+            var acid = oneinchance(3) ? conf.acids : false;
             return {
                 qmode: (conf.qmode == 'mixed' ? pickone(['ntf', 'ftn']) : conf.qmode),
-                acid: oneinchance(3) ? conf.acids : false,
-                peroxide: conf.peroxides,
+                acid: acid,
+                peroxide: (!acid && conf.peroxides && oneinchance(2)) ? true : false,
                 hydrate: oneinchance(2) ? conf.hydrates : false,
                 multivalent: oneinchance(2) ? conf.multivalents : false
             }
@@ -67,23 +71,27 @@ module.exports = function(app) {
             var cation, anion;
             
             if (opt.acid) {
-                cation = gndb.cations[0];
+                cation = gndb.cations[0];  // hydrogen
                 anion = pickone(__.filter(gndb.anions, function(an) {
                     return an[4] ? true : false;
                 }));
             }
-            else if (opt.multivalent) {
-                cation = pickone(__.filter(gndb.cations, function(cat) {
-                    return cat[4] ? true : false;
-                }));
-            
-                anion = pickone(gndb.anions);
-            }
             else {
-                cation = pickone(__.filter(gndb.cations, function(cat) {
-                    return cat[4] ? false : true;
-                }));
-                anion = pickone(gndb.anions);
+                if (opt.multivalent) {
+                    cation = pickone(__.filter(gndb.cations, function(cat) {
+                        return cat[4] ? true : false;
+                    }));
+                }
+                else {
+                    cation = pickone(__.filter(gndb.cations, function(cat) {
+                        return cat[4] ? false : true;
+                    }));
+                }
+                                
+                if (opt.peroxide)
+                    anion = gndb.anions[0];  // oxygen
+                else
+                    anion = pickone(gndb.anions);
             }
             
             return {
@@ -111,7 +119,7 @@ module.exports = function(app) {
                 an = ar.an,
                 opt = ar.opt;
             
-            balance(cat, an);
+            balance(cat, an, opt.peroxide);
             
             var q_formula = parens(cat) + parens(an);
             var q_names = [];
@@ -138,13 +146,17 @@ module.exports = function(app) {
             }
             else {
                 for (var ci = 0; ci < __.size(cat.names); ci++) {
-                    for (var ai = 0; ai < __.size(an.names); ai++) {
-                        var newname = cat.names[ci] + ' ' + an.names[ai];
-
-                        q_names = __.union(q_names, newname);
+                    if (opt.peroxide) {
+                        q_names.push(cat.names[ci] + ' peroxide');
+                    }
+                    else {
+                        for (var ai = 0; ai < __.size(an.names); ai++) {
+                            q_names.push(cat.names[ci] + ' ' + an.names[ai]);
+                        }
                     }
                 }
             }
+            q_names = __.uniq(q_names);
             
             // handle hydrates
             if (opt.hydrate && !opt.acid) {

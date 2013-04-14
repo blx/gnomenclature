@@ -12,7 +12,7 @@
 // TODO:  fix problems of "hydrogen dihydrogen phosphate" etc.
 
 exports.cations = [
-    ['H',   ['hydrogen'],              1, false, false],
+    ['H',   ['hydrogen'],              1, false, false],        // keep first for acids
     ['Li',  ['lithium'],               1, false, false],
     ['Be',  ['beryllium'],             2, false, false],
     ['Na',  ['sodium'],                1, false, false],
@@ -31,11 +31,11 @@ exports.cations = [
 ];
 
 exports.anions = [
+    ['O',     ['oxide'],                             -2, false, false],         // keep first for peroxides
     ['Br',    ['bromide'],                           -1, false, ['bromic']],
     ['Cl',    ['chloride'],                          -1, false, ['chloric']],
     ['F',     ['fluoride'],                          -1, false, ['fluoric']],
     ['I',     ['iodide'],                            -1, false, ['iodic']],
-    ['O',     ['oxide'],                             -2, false, false],
     ['S',     ['sulphide', 'sulfide'],               -2, false, ['sulphuric', 'sulfuric']],
 
     ['BrO',   ['hypobromite'],                       -1, true, ['hypobromous']],
