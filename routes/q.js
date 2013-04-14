@@ -64,8 +64,8 @@ module.exports = function(app) {
             return {
                 qmode: (conf.qmode == 'mixed' ? pickone(['ntf', 'ftn']) : conf.qmode),
                 acid: acid,
-                peroxide: (!acid && conf.peroxides && oneinchance(2)) ? true : false,
-                hydrate: oneinchance(2) ? conf.hydrates : false,
+                peroxide: (!acid && conf.peroxides) ? oneinchance(2) : false,
+                hydrate: (!acid && conf.hydrates) ? oneinchance(2) : false,
                 multivalent: oneinchance(2) ? conf.multivalents : false
             }
         });
@@ -167,7 +167,7 @@ module.exports = function(app) {
             q_names = __.uniq(q_names);
             
             // handle hydrates
-            if (opt.hydrate && !opt.acid) {
+            if (opt.hydrate) {
                 hnum = __.random(1, 10);
 
                 hformula = (hnum > 1 ? hnum : '') + 'H2O';
