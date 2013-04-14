@@ -15,6 +15,10 @@ module.exports = function(app) {
             gndb = require('./q.inc.js'),
             util = require('util');
 
+        String.prototype.startsWith = function(needle) {
+            return this.indexOf(needle) === 0;
+        };
+
         var reqconf = JSON.parse(req.query.conf),
             conf = {
                 n: (req.query.n &&
@@ -90,8 +94,12 @@ module.exports = function(app) {
                                 
                 if (opt.peroxide)
                     anion = gndb.anions[0];  // oxygen
-                else
-                    anion = pickone(gndb.anions);
+                else {
+                    // avoid the case of "HH2PO4" or "HHCO3"
+                    anion = pickone(__.filter(gndb.anions, function(an) {
+                        return this[0].startsWith("H") && an[0].startsWith("H") ? false : true;
+                    }, cation));
+                }
             }
             
             return {
