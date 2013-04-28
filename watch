@@ -1,0 +1,9 @@
+#!/bin/bash
+# Ben Cook <bc@benlxc.ca>
+
+echo "Watching Sass files & running nodemon on localhost:3000"
+
+cd /Users/bc/web/gnne/
+
+sass --watch public/style/ &
+nodemon gnne.js
