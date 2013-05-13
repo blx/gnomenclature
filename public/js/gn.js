@@ -132,14 +132,14 @@
         
         // set up button mappings
         self.init = function() {    
-            $.each(confdisplay.qmodes, function(qm) {
+            $.each(confdisplay.qmodes, function(i, qm) {
                 $('#conf-qmode-'+qm).click(function() {
                     changeConfUI(this, '#conf-qmode-'+conf.qmode);
                     conf.qmode = qm;
                     gn.q.init();
                 });
             });
-            $.each(confdisplay.multivalents, function(mv) {
+            $.each(confdisplay.multivalents, function(i, mv) {
                 $('#conf-multivalents-'+mv).click(function() {
                     changeConfUI(this, '#conf-multivalents-'+conf.multivalents);
                     conf.multivalents = mv;
@@ -147,7 +147,7 @@
                 });
             });
         
-            $.each(confdisplay.booleans, function(f) {
+            $.each(confdisplay.booleans, function(i, f) {
                 $('#conf-'+f+'-on').click(function() {
                     changeConfUI(this, '#conf-'+f+'-off');
                     conf[f] = true;
@@ -163,7 +163,7 @@
             // draw initial config
             $('#conf-qmode-'+conf.qmode).addClass("on");
             $('#conf-multivalents-'+conf.multivalents).addClass("on");
-            $.each(confdisplay.booleans, function(c) {
+            $.each(confdisplay.booleans, function(i, c) {
                 $('#conf-' + c + (conf[c] ? '-on' : '-off')).addClass("on");
             });
             
