@@ -213,7 +213,8 @@
         var asyncRequestQuestions = function() {
             $.get('q?n=8&conf=' + encodeURIComponent(JSON.stringify(conf)), function(jsn) {
                 var ql = queue.length;
-                queue.push.apply(queue, jsn);
+                queue = queue.concat(jsn);
+//                queue.push.apply(queue, jsn);
                 if (!self.question) self.newQuestion();
                 if (ql == 0) refresh = false;
             }, 'json');
