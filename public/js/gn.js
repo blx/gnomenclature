@@ -199,7 +199,6 @@
         };
         
         self.newQuestion = function() {
-            console.log(refresh);
             if (queue.length > 1 && !refresh) queue.splice(0, 1);  // remove previous question
 
             self.question = queue[0].question;
