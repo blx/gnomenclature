@@ -130,19 +130,16 @@
             $(dnew).addClass("on");
         };
         
-        // *******************************************************
-        // TODO: is array.map() available in IE7? If not, install underscore.js
-        
         // set up button mappings
         self.init = function() {    
-            confdisplay.qmodes.map(function(qm) {
+            $.each(confdisplay.qmodes, function(qm) {
                 $('#conf-qmode-'+qm).click(function() {
                     changeConfUI(this, '#conf-qmode-'+conf.qmode);
                     conf.qmode = qm;
                     gn.q.init();
                 });
             });
-            confdisplay.multivalents.map(function(mv) {
+            $.each(confdisplay.multivalents, function(mv) {
                 $('#conf-multivalents-'+mv).click(function() {
                     changeConfUI(this, '#conf-multivalents-'+conf.multivalents);
                     conf.multivalents = mv;
@@ -150,7 +147,7 @@
                 });
             });
         
-            confdisplay.booleans.map(function(f) {
+            $.each(confdisplay.booleans, function(f) {
                 $('#conf-'+f+'-on').click(function() {
                     changeConfUI(this, '#conf-'+f+'-off');
                     conf[f] = true;
@@ -166,7 +163,7 @@
             // draw initial config
             $('#conf-qmode-'+conf.qmode).addClass("on");
             $('#conf-multivalents-'+conf.multivalents).addClass("on");
-            confdisplay.booleans.map(function(c) {
+            $.each(confdisplay.booleans, function(c) {
                 $('#conf-' + c + (conf[c] ? '-on' : '-off')).addClass("on");
             });
             
