@@ -6,6 +6,7 @@
  * Copyright 2013 Benjamin Cook <bc@benlxc.ca>
  */
 
+
 (function(gn, undefined) {
     
     var sesh = {
@@ -33,7 +34,6 @@
             
             if (userans === '\\r' || userans === 'report') {
                 toggleReport();
-                updateChrome();
             }
             else {
                 var correct = (jQuery.inArray(userans, gn.q.answer) > -1);
@@ -61,8 +61,8 @@
                 if (correct) sesh.correct++;
                 
                 sesh.answered++;
-                updateChrome();
             }
+            updateChrome();
         }
         evt.preventDefault();
         evt.stopPropagation();
@@ -190,6 +190,10 @@
             refresh = true;
         
         self.init = function() {
+            $.ajaxSetup({
+                cache: false    // otherwise IE caches the AJAX GET request for questions so they get recycled
+            });
+            
             refresh = true;
             queue = [];
             self.question = '';
@@ -198,7 +202,7 @@
             gn.focus();
         };
         
-        self.newQuestion = function() {
+        self.newQuestion = function() {            
             if (queue.length > 1 && !refresh) queue.splice(0, 1);  // remove previous question
 
             self.question = queue[0].question;

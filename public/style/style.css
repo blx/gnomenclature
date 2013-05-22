@@ -8,7 +8,7 @@
 
 body {
   font-family: Helvetica, sans-serif;
-  width: 500px;
+  width: 440px;
   margin: 0 auto;
   color: #000;
   background-color: #fff; }
@@ -82,7 +82,7 @@ input[type="text"] {
   padding: 18px;
   font-size: 1.35em;
   color: #444;
-  width: 462px;
+  width: 402px;
   border: 2px solid #eee;
   box-shadow: 0 0 16px #27c;
   behavior: url("/js/PIE.htc"); }
@@ -121,3 +121,7 @@ footer #gn-sesh-pts {
 
 .incorrect {
   color: #f00; }
+
+@media screen and (max-device-width: 480px) {
+  #gn-q {
+    text-align: center; } }

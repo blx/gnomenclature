@@ -1,7 +1,7 @@
 // Gnomenclature Project
 // Copyright 2013 Benjamin Cook <bc@benlxc.ca>
 
-$pagewidth: 500px;
+$pagewidth: 440px;
 
 @mixin m_link {
     border-bottom: 2px solid #bbb;
@@ -9,6 +9,7 @@ $pagewidth: 500px;
 .link {
     @include m_link;
 }
+
 @mixin m_linkhover {
     cursor: pointer;
     color: #222;
@@ -17,6 +18,7 @@ $pagewidth: 500px;
 .linkhover {
     @include m_linkhover;
 }
+
 
 
 body {
@@ -175,3 +177,14 @@ footer {
 .incorrect {
     color: #f00;
 }
+
+
+
+@media screen and (max-device-width: 480px) {
+    #gn-q {
+        text-align: center;
+    }
+}
+
+
+

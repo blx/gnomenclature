@@ -18,6 +18,8 @@ var express = require('express'),
     require('./routes/' + routeName)(app);
 });
 
+app.set('gnomenclature-version', '0.9.1');
+
 app.configure(function(){
     app.use(express.compress());
     app.set('port', process.env.PORT || 3000);
