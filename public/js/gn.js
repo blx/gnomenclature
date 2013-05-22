@@ -93,8 +93,9 @@
     }
     
     var updateChrome = function() {
-        if ($('#gn-report').css('display') != 'none')
+        if ($('#gn-report').css('display') != 'none') {
             updateReport();
+        }
 //        $('#gn-sesh-q').html('q ' + (sesh.answered + 1));
         $('#gn-sesh-q').html("");
         $('#gn-sesh-pts').html(sesh.correct + '/' + sesh.answered);

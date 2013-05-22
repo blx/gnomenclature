@@ -1,7 +1,7 @@
 /* 0:  symbol
  * 1:  name(s)
  * 2:  charge
- * 3:  is radical?
+ * 3:  is polyatomic ion?
  * [cation] 4:  is mutivalent?
  * [anion]  4:  can be acid anion?
  */
@@ -21,13 +21,23 @@ exports.cations = [
     ['K',   ['potassium'],             1, false, false],
     ['Ca',  ['calcium'],               2, false, false],
     ['Ba',  ['barium'],                2, false, false],
+    ['Ag',  ['silver'],                1, false, false],
+    ['Zn',  ['zinc'],                  2, false, false],
     
     ['NH4', ['ammonium'],              1, true, false],
     
+    ['As', ['arsenic III', 'arsenous', 'arsenious'], 3, false, true],
+    ['As', ['arsenic V', 'arsenic'],   5, false, true],
     ['Cu', ['copper I', 'cuprous'],    1, false, true],
     ['Cu', ['copper II', 'cupric'],    2, false, true],
     ['Fe', ['iron II', 'ferrous'],     2, false, true],
-    ['Fe', ['iron III', 'ferric'],     3, false, true]
+    ['Fe', ['iron III', 'ferric'],     3, false, true],
+    ['Hg', ['mercury I', 'mercurous'], 1, false, true],
+    ['Hg', ['mercury II', 'mercuric'], 2, false, true],
+    ['Pb', ['lead II', 'plumbous'],    2, false, true, ['lead IV', 'plumbic']],
+    ['Pb', ['lead IV', 'plumbic'],     4, false, true],
+    ['Sn', ['tin II', 'stannous'],     2, false, true, ['tin IV', 'stannic']],
+    ['Sn', ['tin IV', 'stannic'],      4, false, true]
 ];
 
 exports.anions = [
@@ -36,6 +46,7 @@ exports.anions = [
     ['Cl',    ['chloride'],                          -1, false, ['chloric']],
     ['F',     ['fluoride'],                          -1, false, ['fluoric']],
     ['I',     ['iodide'],                            -1, false, ['iodic']],
+    ['N',     ['nitride'],                           -3, false, ['nitric']],
     ['S',     ['sulphide', 'sulfide'],               -2, false, ['sulphuric', 'sulfuric']],
 
     ['BrO',   ['hypobromite'],                       -1, true, ['hypobromous']],
