@@ -9,6 +9,42 @@
  */
 
 
+// COME BACK TO THIS LATER ......................
+var makedb = function(gndb, _) {
+    var mongo = require('mongodb');
+    var mongosrv = new mongo.Server("127.0.0.1", 27017, {});
+    
+    new mongo.Db("gn-ions", mongosrv, {smallfiles:true, safe:false}).open(function (err, client) {
+        if (err) throw err;
+        
+        var cat_ = _(gndb.cations).map(function(ion) {
+            return {
+                symbol: ion[0],
+                names: ion[1],
+                valence: ion[2],
+                isPolyatomic: ion[3],
+                isMultivalent: ion[4]
+            };
+        });
+        var an_ = _(gndb.anions).map(function(ion) {
+            return {
+                symbol: ion[0],
+                names: ion[1],
+                valence: ion[2],
+                isPolyatomic: ion[3],
+                canBeAcidAnion: ion[4]
+            };
+        });
+        
+        var cations = new mongo.Collection(client, "cations");
+        cations.insert(cat_);
+        
+        var anions = new mongo.Collection(client, "anions");
+        anions.insert(an_);
+        
+    });
+};
+
 module.exports = function(app) {
     app.get('/q', function(req, res) {
         var __ = require('underscore'),
