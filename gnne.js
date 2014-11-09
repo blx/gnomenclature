@@ -1,9 +1,3 @@
-/*
- *    Gnomenclature Project
- *
- *    Copyright 2013 Benjamin Cook <bc@benlxc.ca>
- */
-
 // todo: handle errors (eg. 404)
 
 var express = require('express'),
@@ -17,8 +11,6 @@ var express = require('express'),
 ].map(function(routeName) {
     require('./routes/' + routeName)(app);
 });
-
-app.set('gnomenclature-version', '0.9.1');
 
 app.configure(function(){
     app.use(express.compress());
