@@ -2,7 +2,7 @@
   "name": "gnomenclature",
   "version": "0.9.3",
   "private": true,
-  "author": "Ben Cook <bc@benlxc.ca> (http://bencook.ca)",
+  "author": "Ben Cook (http://bencook.ca)",
   "scripts": {
     "start": "node gnne"
   },
@@ -12,12 +12,6 @@
     "underscore": "1.4.x",
     "sqlite3": ">=2"
   },
-  "bundledDependencies": [
-    "express",
-    "jade",
-    "underscore",
-    "sqlite3"
-  ],
   "engines": {
     "node": "0.8.x",
     "npm": "1.1.x"

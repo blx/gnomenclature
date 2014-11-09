@@ -1,5 +1,5 @@
 #!/bin/bash
-# Ben Cook <bc@benlxc.ca>
+# Ben Cook <b@bencook.ca>
 
 echo "Watching Sass files & running nodemon on localhost:3000"
 
