@@ -1,61 +1,69 @@
-extends layout
+doctype html
+html(lang="en")
+    head
+        title= title
+        link(rel='stylesheet', href='/style/style.css')
 
-block head
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
-    script(src='/js/gn.js')
+        //if lt IE 9
+            script(src='/js/html5shiv-printshiv.js')
 
-block content
-    
-    #gn-header
-        h2#gn-about gnomenclature helps you practice inorganic chemical nomenclature.
-        p created by <a href="http://bencook.ca">ben cook</a>
-        
-        #gn-config
-            table
-                tr
-                    td question type
-                    td
-                        a#conf-qmode-mixed mixed
-                        a#conf-qmode-ntf names
-                        a#conf-qmode-ftn formulas
-                tr
-                    td multivalents
-                    td
-                        a#conf-multivalents-mixed mixed
-                        a#conf-multivalents-latin latin
-                        a#conf-multivalents-iupac iupac
-                        a#conf-multivalents-off off
-                tr
-                    td acids
-                    td
-                        a#conf-acids-on on
-                        a#conf-acids-off off
-                tr
-                    td peroxides
-                    td
-                        a#conf-peroxides-on on
-                        a#conf-peroxides-off off
-                tr
-                    td hydrates
-                    td
-                        a#conf-hydrates-on on
-                        a#conf-hydrates-off off
+        script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+        script(src='/js/gn.js')
+
+    body
+        h1
+            span#gn-title= title
+
+        #gn-header
+            h2#gn-about gnomenclature helps you practice inorganic chemical nomenclature.
+            p created by <a href="http://bencook.ca">ben cook</a>
             
-            a#hide-header
-                span hide
+            #gn-config
+                table
+                    tr
+                        td question type
+                        td
+                            a#conf-qmode-mixed mixed
+                            a#conf-qmode-ntf names
+                            a#conf-qmode-ftn formulas
+                    tr
+                        td multivalents
+                        td
+                            a#conf-multivalents-mixed mixed
+                            a#conf-multivalents-latin latin
+                            a#conf-multivalents-iupac iupac
+                            a#conf-multivalents-off off
+                    tr
+                        td acids
+                        td
+                            a#conf-acids-on on
+                            a#conf-acids-off off
+                    tr
+                        td peroxides
+                        td
+                            a#conf-peroxides-on on
+                            a#conf-peroxides-off off
+                    tr
+                        td hydrates
+                        td
+                            a#conf-hydrates-on on
+                            a#conf-hydrates-off off
+                
+                a#hide-header
+                    span hide
+            
         
-    
-    h2#gn-q
-    
-    form#gn-form
-        input#gn-userinput(type="text", spellcheck=false, autocomplete="off", autocapitalize="off", autocorrect="off")
-        input#gn-submit(type="submit")
+        h2#gn-q
+        
+        form#gn-form
+            input#gn-userinput(type="text", spellcheck=false, autocomplete="off", autocapitalize="off", autocorrect="off")
+            input#gn-submit(type="submit")
 
-    footer#gn-footer
-        p#gn-sesh-q
-        p#gn-sesh-pts
-    
-    p#gn-feedback
-    
-    #gn-report
-        table#gn-report-table
+        footer#gn-footer
+            p#gn-sesh-q
+            p#gn-sesh-pts
+        
+        p#gn-feedback
+        
+        #gn-report
+            table#gn-report-table
