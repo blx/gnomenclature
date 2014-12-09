@@ -3,14 +3,25 @@
   "version": "0.9.3",
   "private": true,
   "author": "Ben Cook (http://bencook.ca)",
+  "homepage": "https://github.com/blx/gnomenclature",
+  "license": "ISC",
+  "bugs": {
+    "url": "http://github.com/blx/gnomenclature/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/blx/github.git"
+  },
   "scripts": {
     "start": "node gnne.js"
   },
   "dependencies": {
-    "express": ">=3.0.0rc4",
+    "express": ">=4",
     "jade": "*",
     "underscore": ">=1.4",
-    "compression": "*",
+    "compression": "*"
+  },
+  "devDependencies": {
     "errorhandler": "*"
   }
 }
