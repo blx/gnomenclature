@@ -1,13 +1,16 @@
 # Gnomenclature
 
-A tool to practice inorganic chemical nomenclature.
+A tiny web app to help you practice inorganic chemical nomenclature.
 Try it at http://gnomenclature.bencook.ca.
 
-Written by Ben Cook <b@bencook.ca>
+Written by Ben Cook <b@bencook.ca>.
+
+*Note: This was written for a Canadian Grade 12 chemistry course and I haven't really
+studied chem since, so it's not guaranteed to be either correct or challenging.*
 
 ## Installation
 
-This is a tiny [Node.js](https://nodejs.org) app packaged for NPM.
+This is a tiny [Node.js](https://nodejs.org) app packaged for an easy NPM install.
 
 If you don't have Node installed, go do that and come back. It's ok, I'll be here.
 [Sass](http://sass-lang.com) will be needed as well if you want to edit the CSS,
