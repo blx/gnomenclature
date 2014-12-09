@@ -1,12 +1,3 @@
-/*
- * Gnomenclature Project
- *
- * gn.js
- *
- * Copyright 2013 Benjamin Cook <bc@benlxc.ca>
- */
-
-
 (function(gn, undefined) {
     
     var sesh = {
@@ -32,7 +23,7 @@
     var checkAnswers = function(evt) {
         if (( userans = $.trim($('#gn-userinput').val()).replace(/(\s)+/g, ' ') )) {
             
-            if (userans === '\\r' || userans === 'report') {
+            if (userans == '\\r' || userans == 'report') {
                 toggleReport();
             }
             else {
@@ -87,8 +78,7 @@
         return i - tablelen;  // number of elements added
     };
     
-    var formatFormula = function(f) {
-        // TODO: combine these two regexes so they're less ugly.
+    var formatFormula = function(f) { 
         return f.replace(/([\d]+)/g, '<sub>$1</sub>').replace(/ <sub>([\d]+)<\/sub>H/, ' $1H');
     }
     
