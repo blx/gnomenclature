@@ -10,6 +10,7 @@
 
 
 // COME BACK TO THIS LATER ......................
+/*
 var makedb = function(gndb, _) {
     var mongo = require('mongodb');
     var mongosrv = new mongo.Server("127.0.0.1", 27017, {});
@@ -44,6 +45,7 @@ var makedb = function(gndb, _) {
         
     });
 };
+*/
 
 module.exports = function(app) {
     app.get('/q', function(req, res) {
