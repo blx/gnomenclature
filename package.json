@@ -4,15 +4,13 @@
   "private": true,
   "author": "Ben Cook (http://bencook.ca)",
   "scripts": {
-    "start": "node gnne"
+    "start": "node gnne.js"
   },
   "dependencies": {
     "express": ">=3.0.0rc4",
     "jade": "*",
-    "underscore": ">=1.4"
-  },
-  "engines": {
-    "node": ">=0.8",
-    "npm": "*"
+    "underscore": ">=1.4",
+    "compression": "*",
+    "errorhandler": "*"
   }
 }

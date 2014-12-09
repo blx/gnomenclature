@@ -1,8 +1,8 @@
 // todo: handle errors (eg. 404)
 
 var express = require('express'),
-    http = require('http'),
     path = require('path'),
+    compression = require('compression'),
     app = express();
 
 [
@@ -12,23 +12,17 @@ var express = require('express'),
     require('./routes/' + routeName)(app);
 });
 
-app.configure(function(){
-    app.use(express.compress());
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser());
-    app.use(express.methodOverride());
-    app.use(express.favicon());
-    app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
-});
+app.use(compression());
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.configure('development', function(){
-    app.use(express.errorHandler());
-});
+if (process.env.NODE_ENV == 'development') {
+    var errorhandler = require('errorhandler');
+    app.use(errorHandler());
+}
 
-http.createServer(app).listen(app.get('port'), function(){
+app.listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });
