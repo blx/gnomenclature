@@ -48,7 +48,7 @@ var makedb = function(gndb, _) {
 module.exports = function(app) {
     app.get('/q', function(req, res) {
         var __ = require('underscore'),
-            gndb = require('./q.inc.js'),
+            gndb = require('./gndb.js'),
             util = require('util');
 
         String.prototype.startsWith = function(needle) {
