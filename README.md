@@ -1,6 +1,7 @@
 # Gnomenclature
 
 A tool to practice inorganic chemical nomenclature.
+Try it at http://gnomenclature.bencook.ca.
 
 Written by Ben Cook <b@bencook.ca>
 
@@ -20,6 +21,8 @@ Now `./watch` will run a development environment, serving the site on localhost:
 and having Sass watch for changes and automatically regenerate the CSS.
 
 Alternatively, just `node gnne.js` will spin up the server.
+
+There is a `Procfile` for Heroku deployment.
 
 ## Licence
 The ISC License (ISC)
