@@ -5,10 +5,7 @@ var express = require('express'),
     compression = require('compression'),
     app = express();
 
-[
-    'index',
-    'q',
-].map(function(routeName) {
+['index', 'q',].map(function(routeName) {
     require('./routes/' + routeName)(app);
 });
 
@@ -23,6 +20,6 @@ if (process.env.NODE_ENV == 'development') {
     app.use(errorHandler());
 }
 
-app.listen(app.get('port'), function(){
+app.listen(app.get('port'), function() {
     console.log("Express server listening on port " + app.get('port'));
 });
