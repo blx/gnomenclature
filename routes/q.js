@@ -37,7 +37,7 @@ CHANCEOF = R.mapObj(R.partial(R.partial, oneinchance), {
 })
 
 function isHydrogen(ion) {
-    return ion[0] === 'H'
+    return ion.symbol === 'H'
 }
 
 
@@ -60,13 +60,13 @@ function pickIons(db, opt) {
         anion = pickone(db.anions.filter(R.prop('acidanionnames')))
     }
     else {
-        var getMultivalences = R.prop('ismultivalent')
-        cation = pickone(db.cations.filter(opt.multivalent ? getMultivalences
-                                                           : R.complement(getMultivalences)))
+        var filterfn = opt.multivalent ? R.filter : R.reject
+        cation = pickone(filterfn(R.prop('ismultivalent'),
+                                  db.cations))
 
         anion = opt.peroxide ? db.oxide
                                // avoid the case of "HH2PO4" or "HHCO3"
-                             : isHydrogen(cation) ? pickone(db.anions.filter(R.negate(isHydrogen)))
+                             : isHydrogen(cation) ? pickone(R.reject(isHydrogen, db.anions))
                                                   : pickone(db.anions)
     }
 
@@ -107,7 +107,7 @@ function applyAcid(an, q) {
     q.formula += '(aq)'
 
     q.names = an.acidanionnames.map(function(name) {
-        (an.isradical ? '' : 'hydro') + ' acid'
+        return (an.isradical ? '' : 'hydro') + name + ' acid'
     })
 }
 
@@ -176,10 +176,10 @@ module.exports = function(app) {
                 qmode: R.contains(reqconf.qmode.toLowerCase(),
                                   ['ftn', 'ntf', 'mixed']) ?
                        reqconf.qmode.toLowerCase() : 'mixed',
-                acids: (reqconf.acids || false),
-                hydrates: (reqconf.hydrates || false),
-                peroxides: (reqconf.peroxides || false),
-                multivalents: (reqconf.multivalents != 'off' ? reqconf.multivalents : false)
+                acids: !!reqconf.acids,
+                hydrates: !!reqconf.hydrates,
+                peroxides: !!reqconf.peroxides,
+                multivalents: reqconf.multivalents != 'off' && !!reqconf.multivalents
             }
 
         // Generate [n] question configs,
