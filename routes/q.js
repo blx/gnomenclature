@@ -62,7 +62,7 @@ function pickIons(db, opt) {
     else {
         var getMultivalences = R.prop('ismultivalent')
         cation = pickone(db.cations.filter(opt.multivalent ? getMultivalences
-                                                           : R.negate(getMultivalences)))
+                                                           : R.complement(getMultivalences)))
 
         anion = opt.peroxide ? db.oxide
                                // avoid the case of "HH2PO4" or "HHCO3"
@@ -80,8 +80,8 @@ function pickIons(db, opt) {
     }
 
     return {
-        cat: cat,
-        an: an,
+        cat: cation,
+        an: anion,
         hydrate: hydrate,
         opt: opt
     }
@@ -111,15 +111,16 @@ function applyAcid(an, q) {
     })
 }
 
-function applyHydrate(q) {
-    q.formula += ' ' + q.hydrate.formula
-    q.names = q.names.map(function(fname) { return fname + ' ' + q.hydrate.name })
+function applyHydrate(hydrate, q) {
+    q.formula += ' ' + hydrate.formula
+    q.names = q.names.map(function(fname) { return fname + ' ' + hydrate.name })
 }
 
 function assembleQuestion(ionset) {
     var cat = ionset.cat,
         an  = ionset.an,
-        opt = ionset.opt
+        opt = ionset.opt,
+        hydrate = ionset.hydrate
 
     balance(cat, an, opt.peroxide)
 
@@ -150,7 +151,7 @@ function assembleQuestion(ionset) {
 
     q.names = R.uniq(q.names)  // TODO necessary??
 
-    if (opt.hydrate) applyHydrate(q)
+    if (opt.hydrate) applyHydrate(hydrate, q)
 
     return {
         question: opt.qmode == 'ftn' ? q.formula
@@ -185,9 +186,9 @@ module.exports = function(app) {
         // then pick ions for each question,
         // then generate the questions themselves.
         
-        res.json(R.pipe(R.repeat(conf, conf.n),
-                        makeConfig,
-                        R.partial(pickIons, db),
-                        assembleQuestion))
+        res.json(R.map(R.pipe(makeQuestionConfig,
+                              R.partial(pickIons, db),
+                              assembleQuestion),
+                       R.repeat(conf, conf.n)))
     })
 }

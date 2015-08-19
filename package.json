@@ -16,10 +16,10 @@
     "start": "node gnne.js"
   },
   "dependencies": {
+    "compression": "*",
     "express": ">=4",
     "jade": "*",
-    "underscore": ">=1.4",
-    "compression": "*"
+    "ramda": "^0.17.1"
   },
   "devDependencies": {
     "errorhandler": "*"
