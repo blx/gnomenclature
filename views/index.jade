@@ -2,7 +2,7 @@ doctype html
 html(lang="en")
     head
         title= title
-        link(rel='stylesheet', href='/style/style.css')
+        link(rel='stylesheet' href='/style/style.css')
 
         //if lt IE 9
             script(src='/js/html5shiv-printshiv.js')
@@ -16,7 +16,7 @@ html(lang="en")
 
         #gn-header
             h2#gn-about gnomenclature helps you practice inorganic chemical nomenclature.
-            p <a href="https://github.com/blx/gnomenclature">created</a> by <a href="http://bencook.ca">ben cook</a>
+            p #[a(href="https://github.com/blx/gnomenclature") created] by #[a(href="http://bencook.ca") ben cook]
             
             #gn-config
                 table
@@ -56,7 +56,7 @@ html(lang="en")
         h2#gn-q
         
         form#gn-form
-            input#gn-userinput(type="text", spellcheck=false, autocomplete="off", autocapitalize="off", autocorrect="off")
+            input#gn-userinput(type="text" spellcheck=false autocomplete="off" autocapitalize="off" autocorrect="off")
             input#gn-submit(type="submit")
 
         footer#gn-footer
