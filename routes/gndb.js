@@ -11,8 +11,16 @@
 
 // TODO:  fix problems of "hydrogen dihydrogen phosphate" etc.
 
-exports.cations = [
-    ['H',   ['hydrogen'],              1, false, false],        // keep first for acids
+var R = require('ramda')
+
+
+cation_fields =
+    ['symbol', 'names',         'charge', 'isradical', 'ismultivalent']
+
+exports.hydrogen = R.zipObj(cation_fields,
+    ['H',   ['hydrogen'],              1, false, false])
+
+exports.cations = R.concat(exports.hydrogen, R.map(R.zipObj(cation_fields), [
     ['Li',  ['lithium'],               1, false, false],
     ['Be',  ['beryllium'],             2, false, false],
     ['Na',  ['sodium'],                1, false, false],
@@ -38,10 +46,16 @@ exports.cations = [
     ['Pb', ['lead IV', 'plumbic'],     4, false, true],
     ['Sn', ['tin II', 'stannous'],     2, false, true, ['tin IV', 'stannic']],
     ['Sn', ['tin IV', 'stannic'],      4, false, true]
-];
+]))
 
-exports.anions = [
-    ['O',     ['oxide'],                             -2, false, false],         // keep first for peroxides
+
+anion_fields =
+    ['symbol', 'names',                      'charge', 'isradical', 'acidanionnames']
+
+exports.oxide = R.zipObj(anion_fields,
+    ['O',     ['oxide'],                             -2, false, false])
+
+exports.anions = R.concat(exports.oxide, R.map(R.zipObj(anion_fields), [
     ['Br',    ['bromide'],                           -1, false, ['bromic']],
     ['Cl',    ['chloride'],                          -1, false, ['chloric']],
     ['F',     ['fluoride'],                          -1, false, ['fluoric']],
@@ -84,7 +98,7 @@ exports.anions = [
     ['SO4',   ['sulphate', 'sulfate'],               -2, true, ['sulphuric', 'sulfuric']],
     ['SO5',   ['persulphate', 'persulfate'],         -2, true, ['persulphuric', 'persulfuric']],
     ['S2O3',  ['thiosulphate', 'thiosulfate'],       -2, true, false]
-];
+]))
 
 exports.hydrates = {
     1: 'monohydrate',
@@ -97,4 +111,4 @@ exports.hydrates = {
     8: 'octahydrate',
     9: 'nonahydrate',
     10: 'decahydrate'
-};
+}

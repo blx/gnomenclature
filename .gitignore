@@ -1,2 +1,4 @@
 # sass-cache
 *.scssc
+node_modules/
+npm-debug.log
